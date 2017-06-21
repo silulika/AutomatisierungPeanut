@@ -131,7 +131,7 @@ class Peanut {
     return this._commandCharacteristic.writeValue(data);
   }
 
-  /* ThermoPeanut specific */
+  /* ThermoPeanut */
 
   getTemperature() {
     return this._commandCharacteristic.writeValue(new Uint8Array([4]))
@@ -144,42 +144,9 @@ class Peanut {
     });
   }
 
-  /* GuardPeanut specific */
+  
 
-  getGuardState() {
-    return this._commandCharacteristic.writeValue(new Uint8Array([70, 0, 0]))
-    .then(_ => this._commandCharacteristic.readValue())
-    .then(value => {
-      if (value.getUint8(0) !== 70) {
-        return Promise.reject('Unexpected ID when reading command characteristic');
-      }
-      return this._parseNotifications(value);
-    });
-  }
-
-  turnOnGuard() {
-    return this._commandCharacteristic.writeValue(new Uint8Array([70, 0, 1, 1]))
-    .then(_ => this._commandCharacteristic.readValue())
-    .then(value => {
-      if (value.getUint8(0) !== 70) {
-        return Promise.reject('Unexpected ID when reading command characteristic');
-      }
-      return this._parseNotifications(value);
-    });
-  }
-
-  turnOffGuard() {
-    return this._commandCharacteristic.writeValue(new Uint8Array([70, 0, 1, 0]))
-    .then(_ => this._commandCharacteristic.readValue())
-    .then(value => {
-      if (value.getUint8(0) !== 70) {
-        return Promise.reject('Unexpected ID when reading command characteristic');
-      }
-      return this._parseNotifications(value);
-    });
-  }
-
-  /* Generic */
+  /*Allgemein */
 
   buzz() {
     return this._commandCharacteristic.writeValue(new Uint8Array([5]))
@@ -236,9 +203,6 @@ class Peanut {
       case 5:
         data.touch = this._parseTouchData(value);
         break;
-      case 70:
-        data.guardState = this._parseGuardState(value);
-        break;
       default:
         let bytes = [];
         for (let i = 0; i < value.byteLength; i++) {
@@ -258,10 +222,6 @@ class Peanut {
   _parseAlertData(value) {
     let intensity = value.getUint8(6) | value.getUint8(7) << 8;
     return intensity;
-  }
-
-  _parseGuardState(value) {
-    return (value.getUint8(7) === 0) ? 'Disabled': 'Enabled';
   }
 
   _parseBatteryData(value) {
