@@ -74,7 +74,7 @@
         .then(_ => peanut.getMacAddress())
         .then(macAddress => {
           if (!MY_PEANUTS[macAddress]) {
-            return Promise.reject('Argh! Read https://github.com/beaufortfrancois/sandbox/blob/gh-pages/web-bluetooth/sense-peanut/README.md first!');
+            return Promise.reject('Oh Nein, ein Fehler!');
           }
           log('Mac Address: ' + macAddress);
           peanut.color = MY_PEANUTS[macAddress].color;
