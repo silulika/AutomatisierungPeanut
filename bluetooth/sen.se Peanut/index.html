@@ -25,7 +25,6 @@
       }
       [data-color="blue"] { color: #00a9ce; }
       [data-color="green"] { color: #aadb1e; }
-      [data-color="orange"] { color: #ff5c39; }
       #buttons { min-height: 36px; line-height: 36px; }
       #scanPeanuts { float: right; margin-right: 12px; }
       .separator { color: rgba(0,0,0,.26); }
@@ -42,16 +41,13 @@
       <span class="separator">|</span>
       <button class="mdl-button mdl-js-button mdl-button--primary" id="temperature" disabled>Get Temperature</button>
       <span class="separator">|</span>
-      <button class="mdl-button mdl-js-button mdl-button--primary" id="guardState" disabled>Get Guard State</button>
-      <button class="mdl-button mdl-js-button mdl-button--primary" id="turnOnGuard" disabled>Turn on Guard</button>
-      <button class="mdl-button mdl-js-button mdl-button--primary" id="turnOffGuard" disabled>Turn off Guard</button>
     </div>
 
     <div id="console"></div>
     <div id="charts"></div>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="sense-peanut.js"></script>
+    <script src="sen.se Peanut.js"></script>
     <script>
       var $ = document.querySelector.bind(document);
       var peanuts = [];
@@ -115,9 +111,6 @@
                 $('#battery').disabled = false;
                 $('#temperature').disabled = false;
                 $('#buzz').disabled = false;
-                $('#guardState').disabled = false;
-                $('#turnOnGuard').disabled = false;
-                $('#turnOffGuard').disabled = false;
                 updateButtonsColor(button);
               }, 200);
             }
@@ -156,28 +149,6 @@
         })
         .catch(e => { log('Error: ' + e); });
       });
-      document.querySelector('#guardState').addEventListener('click', function() {
-        log('Getting guard state...');
-        activePeanut.getGuardState()
-        .then(data => handleNotifications(data, activePeanut))
-        .catch(e => { log('Error: ' + e); });
-      });
-      document.querySelector('#turnOnGuard').addEventListener('click', function() {
-        log('Turning ON guard...');
-        activePeanut.turnOnGuard()
-        .then(_ => {
-          log('Guard is turned ON.');
-        })
-        .catch(e => { log('Error: ' + e); });
-      });
-      document.querySelector('#turnOffGuard').addEventListener('click', function() {
-        log('Turning OFF guard...');
-        activePeanut.turnOffGuard()
-        .then(_ => {
-          log('Guard is turned OFF.');
-        })
-        .catch(e => { log('Error: ' + e); });
-      });
       function handleNotifications(data, peanut) {
         if (data.temperatureCelsius) {
           let item = {
@@ -185,7 +156,7 @@
             peanutMac: peanut.mac,
             temperatureCelsius: data.temperatureCelsius,
           }
-          //TODO: Don't use localStorage.
+          
           localStorage.setItem(data.timeStampMs, JSON.stringify(item));
           updateChart(peanut, data.timeStampMs, data.temperatureCelsius);
         } else if (data.alert) {
@@ -194,7 +165,7 @@
             peanutMac: peanut.mac,
             alert: data.alert,
           }
-          //TODO: Don't use localStorage.
+          
           localStorage.setItem(data.timeStampMs, JSON.stringify(item));
           updateChart(peanut, data.timeStampMs, data.alert);
         }
@@ -249,21 +220,7 @@
               }
             }
           };
-        } else if (peanut.type == 'guard') {
-          peanut.chart = new google.visualization.ScatterChart($('#' + div.id));
-          peanut.chartOptions = {
-            fontName: 'Roboto',
-            colors: [peanut.rgbColor],
-            width: document.body.clientWidth,
-            height: (window.innerHeight - 224) / 2,
-            legend: 'none',
-            hAxis: {
-              gridlines: {
-                color: '#fff'
-              }
-            }
-          };
-        }
+        } 
         if (peanut.data.getNumberOfRows()) {
           peanut.chart.draw(peanut.data, peanut.chartOptions);
         }
