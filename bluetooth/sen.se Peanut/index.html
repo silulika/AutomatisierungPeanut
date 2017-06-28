@@ -56,11 +56,13 @@
       const MY_PEANUTS = {
         '00:A0:50:43:06:84': {
           'color': 'blue',
+          'label': 'Peanut 8',
           'type': 'thermo',
           'factoryKey': '67194d8e44118c8fadca11b69fc38210',
         },
         '00:A0:50:42:0A:2E': {
           'color': 'green',
+          'label': 'Peanut 9', 
           'type': 'thermo',
           'factoryKey': '19021a246780f37cae147c29b3c075d0',
         }
@@ -83,6 +85,7 @@
           peanut.factoryKey = MY_PEANUTS[macAddress].factoryKey;
           peanut.mac = macAddress;
           peanut.type = MY_PEANUTS[macAddress].type;
+          peanut.label = MY_PEANUTS[macAddress].label;
         })
         .then(_ => peanut.getPlainText())
         .then(clearText => peanut.setFactoryCipher(peanut.factoryKey, clearText))
@@ -98,7 +101,7 @@
             newButton.classList.add('mdl-button', 'mdl-js-button');
             newButton.dataset.mac = peanut.mac;
             newButton.dataset.color = peanut.color;
-            newButton.textContent = peanut.mac.substr(9,8);
+            newButton.textContent = peanut.label;
             newButton.addEventListener('click', onConnectButtonClick);
             $('#buttons').appendChild(newButton);
             peanut.rgbColor = window.getComputedStyle(newButton).color;
