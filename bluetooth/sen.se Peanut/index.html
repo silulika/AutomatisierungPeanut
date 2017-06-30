@@ -264,8 +264,7 @@
             height: (window.innerHeight - 224) / 2,
             legend: 'none',
             lineWidth: 3,
-            vAxis: {
-              //title: 'Temperatur in Celsius', 
+            vAxis: { 
               format: '#.## °C',
               ticks: [20, 25, 30, 35, 40]
             },
@@ -275,6 +274,7 @@
               }
             }
           };
+          
         } 
         if (peanut.data.getNumberOfRows()) {
           peanut.chart.draw(peanut.data, peanut.chartOptions);
