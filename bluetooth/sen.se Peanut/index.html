@@ -232,8 +232,8 @@
          document.querySelector('#console').scrollTop += 100;
        }
        
-       google.charts.load('current', {packages: ['corechart']});
-       function drawChart(peanut) {
+       google.charts.load('current', {packages: ['corechart', 'table']});
+       callback: function drawChart(peanut) {
          const div = document.createElement('div');
          div.id = peanut.color + peanut.mac.split(':').join('');
          $('#charts').appendChild(div);
@@ -265,6 +265,7 @@
              legend: 'none',
               lineWidth: 3,
               vAxis: { 
+               
                 format: '#.## °C',
               ticks: [20.00, 25.00, 30.00, 35.00, 40.00]
               },
