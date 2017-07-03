@@ -256,6 +256,7 @@
              }
            }
          }
+        
          if (peanut.type == 'thermo') {
          peanut.chart = new google.visualization.LineChart($('#' + div.id));
           
@@ -286,7 +287,7 @@
           peanut.viewColumns.push(colIndex);
           });
           peanut.viewColumns.push({
-          calc: function () {
+          calc: function drawChart(peanut) {
            return 35;
            },
                label: 'optical temperature limit',
