@@ -235,7 +235,7 @@
        
       
       //Google Chart
-       google.charts.load('current', {
+       google.charts.load('current', {packages:['corechart', 'table'] });
        callback: function drawChart(peanut) {
          const div = document.createElement('div');
          div.id = peanut.color + peanut.mac.split(':').join('');
@@ -279,6 +279,8 @@
              }
            };
            
+          
+          
           peanut.viewColumns = [];
           $.each(new Array(data.getNumberOfColumns()), function (colIndex) {
           peanut.viewColumns.push(colIndex);
@@ -290,25 +292,13 @@
                label: 'optical temperature limit',
                type: 'number'
            });
-          
-          
-          
-          
-         } //if-von thermoPeanut Klammer
-        
-        
-        
-        peanut.view = new google.visualiation.DataView(data);
-        peanut.view.setColumns(viewColumns);
-       
+         } 
+     
          if (peanut.data.getNumberOfRows()) {
            peanut.chart.draw(peanut.view, peanut.chartOptions);
          }
-        
-        
        }
-         packages:['corechart', 'table']
-         });
+      
         
         
         
