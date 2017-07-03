@@ -240,6 +240,17 @@
         peanut.data = new google.visualization.DataTable();
         peanut.data.addColumn('datetime', 'Time');
         peanut.data.addColumn('number', '🥜 ' + peanut.mac.substr(9, 8));
+        peanut.data.addColumn('number', 'x');
+        peanut.data.addColumn('number', 'y0');
+        peanut.data.addColumn('number', 'y1');
+        peanut.data.addColumn('number', 'y2');
+        peanut.data.addRows([
+        [1,  32.8, 20.8, 21.8],
+        [2,  30.9, 29.5, 32.4],
+        [3,  25.4,   27, 25.7],
+        [4,  21.7, 28.8, 20.5],
+        [5,  21.9, 27.6, 20.4]
+        ]);
         for (var i = 0, len = localStorage.length; i < len; i++) {
           let dateTime = new Date(parseInt(localStorage.key(i)));
           let item = JSON.parse(localStorage.getItem(localStorage.key(i)));
@@ -274,7 +285,30 @@
               }
             }
           };
+             
+          peanut.chartViewColumns = [];
+    $.each(new Array(data.getNumberOfColumns()), function (colIndex) {
+      ViewColumns.push(colIndex);
+    });
+
+    viewColumns.push({
+      calc: function () {
+        return 35;
+      },
+      label: 'optical temperature limit',
+      type: 'number'
+    });
+
+    peanut.chartView = new google.visualization.DataView(data);
+    View.setColumns(ViewColumns);
+
+    peanut.chart = new google.visualization.LineChart($('#chart').get(0));
+    chart.draw(View, options);
+  },
+  packages:['corechart', 'table']
+});
           
+  
         } 
         if (peanut.data.getNumberOfRows()) {
           peanut.chart.draw(peanut.data, peanut.chartOptions);
