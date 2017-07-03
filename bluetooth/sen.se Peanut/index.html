@@ -257,7 +257,7 @@
            }
          }
          if (peanut.type == 'thermo') {
-          // peanut.chart = new google.visualization.LineChart($('#' + div.id));
+         peanut.chart = new google.visualization.LineChart($('#' + div.id));
           
            peanut.chartOptions = {
              interpolateNulls: true,
@@ -300,13 +300,9 @@
         
         peanut.view = new google.visualiation.DataView(data);
         peanut.view.setColumns(viewColumns);
-        
-        peanut.chart = new google.visualization.LineChart($('#chart').get(0));
-        peanut.chart.draw(peanut.view, peanut.chartOptions);
-        
-        
+       
          if (peanut.data.getNumberOfRows()) {
-           peanut.chart.draw(peanut.data, peanut.chartOptions);
+           peanut.chart.draw(peanut.view, peanut.chartOptions);
          }
         
         
