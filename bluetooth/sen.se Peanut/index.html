@@ -53,7 +53,7 @@
  
      <div id="console"></div>
      <div id="charts"></div>
-    
+ 
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
      <script src="sen.se Peanut.js"></script>
@@ -233,10 +233,8 @@
          document.querySelector('#console').scrollTop += 100;
        }
        
-      
-      //Google Chart
-       google.charts.load('current', {packages:['corechart', 'table'] });
-       callback: function drawChart(peanut) {
+       google.charts.load('current', {packages: ['corechart']});
+       function drawChart(peanut) {
          const div = document.createElement('div');
          div.id = peanut.color + peanut.mac.split(':').join('');
          $('#charts').appendChild(div);
@@ -256,10 +254,8 @@
              }
            }
          }
-        
          if (peanut.type == 'thermo') {
-         peanut.chart = new google.visualization.LineChart($('#' + div.id));
-          
+           peanut.chart = new google.visualization.LineChart($('#' + div.id));
            peanut.chartOptions = {
              interpolateNulls: true,
              fontName: 'Roboto',
@@ -270,8 +266,6 @@
              legend: 'none',
               lineWidth: 3,
               vAxis: { 
-              	 //baseline: 35,
-                //baselineColor: 'red',
                 format: '#.## °C',
                 ticks: [15.00, 20.00, 25.00, 30.00, 35.00, 40.00]
               },
@@ -282,30 +276,11 @@
              }
            };
            
-          
-          /*
-          peanut.viewColumns = [];
-          $.each(new Array(data.getNumberOfColumns()), function (colIndex) {
-          peanut.viewColumns.push(colIndex);
-          });
-          peanut.viewColumns.push({
-          calc: function drawChart(peanut) {
-           return 35;
-           },
-               label: 'optical temperature limit',
-               type: 'number'
-           });
-         } 
-     */
+         } //if-von thermoPeanut Klammer
          if (peanut.data.getNumberOfRows()) {
-           peanut.chart.draw(peanut.view, peanut.chartOptions);
+           peanut.chart.draw(peanut.data, peanut.chartOptions);
          }
        }
-      
-        
-        
-        
-        
        function updateChart(peanut, timeStampMs, data) {
          let dateTime = new Date(timeStampMs);
          peanut.data.addRows([ [dateTime, data] ]);
