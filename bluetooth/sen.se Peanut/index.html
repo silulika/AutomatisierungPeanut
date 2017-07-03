@@ -233,7 +233,7 @@
        }
        
        google.charts.load('current', {packages: ['corechart', 'table']});
-       callback: function drawChart(peanut) {
+       function drawChart(peanut) {
          const div = document.createElement('div');
          div.id = peanut.color + peanut.mac.split(':').join('');
          $('#charts').appendChild(div);
@@ -276,34 +276,7 @@
              }
            };
           
-          
-    //Zusatz      
-       peanut.viewColumns = [];
-       $.each(new Array(data.getNumberOfColumns()), function (colIndex) {
-      peanut.viewColumns.push(colIndex);
-    });
-  
-      peanut.viewColumns.push({
-      calc: function () {
-        return 35;
-      },
-      label: 'optical temperature limit',
-      type: 'number'
-    });
-
-    peanut.view = new google.visualization.DataView(data);
-    peanut.view.setColumns(viewColumns);
-
-    peanut.chart = new google.visualization.LineChart($('#chart').get(0));
-    peanut.chart.draw(peanut.view, peanut.chartOptions);
-   }        
-        packages:['corechart', 'table']
-});  
-         
-        
-        //Ende des Zusatz
-        
-        
+      
          if (peanut.data.getNumberOfRows()) {
            peanut.chart.draw(peanut.data, peanut.chartOptions);
          }
