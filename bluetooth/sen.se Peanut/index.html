@@ -53,7 +53,8 @@
  
      <div id="console"></div>
      <div id="charts"></div>
- 
+    
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
      <script src="sen.se Peanut.js"></script>
      <script>
@@ -234,8 +235,8 @@
        
       
       //Google Chart
-       google.charts.load('current', {packages: ['corechart']});
-       function drawChart(peanut) {
+       google.charts.load('current', {
+       callback: function drawChart(peanut) {
          const div = document.createElement('div');
          div.id = peanut.color + peanut.mac.split(':').join('');
          $('#charts').appendChild(div);
@@ -256,7 +257,8 @@
            }
          }
          if (peanut.type == 'thermo') {
-           peanut.chart = new google.visualization.LineChart($('#' + div.id));
+          // peanut.chart = new google.visualization.LineChart($('#' + div.id));
+          
            peanut.chartOptions = {
              interpolateNulls: true,
              fontName: 'Roboto',
@@ -277,11 +279,44 @@
              }
            };
            
-         } 
+          peanut.viewColumns = [];
+          $.each(new Array(data.getNumberOfColumns()), function (colIndex) {
+          peanut.viewColumns.push(colIndex);
+          });
+          peanut.viewColumns.push({
+          calc: function () {
+           return 35;
+           },
+               label: 'optical temperature limit',
+               type: 'number'
+           });
+          
+          
+          
+          
+         } //if-von thermoPeanut Klammer
+        
+        
+        
+        peanut.view = new google.visualiation.DataView(data);
+        peanut.view.setColumns(viewColumns);
+        
+        peanut.chart = new google.visualization.LineChart($('#chart').get(0));
+        peanut.chart.draw(peanut.view, peanut.chartOptions);
+        
+        
          if (peanut.data.getNumberOfRows()) {
            peanut.chart.draw(peanut.data, peanut.chartOptions);
          }
+        
+        
        }
+         packages:['corechart', 'table']
+         });
+        
+        
+        
+        
        function updateChart(peanut, timeStampMs, data) {
          let dateTime = new Date(timeStampMs);
          peanut.data.addRows([ [dateTime, data] ]);
