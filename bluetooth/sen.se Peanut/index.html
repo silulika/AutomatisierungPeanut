@@ -240,7 +240,7 @@
         $('#charts').appendChild(div);
         peanut.data = new google.visualization.DataTable();
         peanut.data.addColumn('datetime', 'Time');
-        peanut.data.addColumn('number', '🥜' + peanut.label);
+        peanut.data.addColumn('number', '🥜' + peanut.mac.substr(9, 8));
         
         for (var i = 0, len = localStorage.length; i < len; i++) {
           let dateTime = new Date(parseInt(localStorage.key(i)));
