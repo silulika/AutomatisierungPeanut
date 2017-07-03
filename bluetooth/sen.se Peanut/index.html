@@ -240,6 +240,7 @@
          peanut.data = new google.visualization.DataTable();
          peanut.data.addColumn('datetime', 'Time');
          peanut.data.addColumn('number', '🥜 ' + peanut.label);
+        
          for (var i = 0, len = localStorage.length; i < len; i++) {
            let dateTime = new Date(parseInt(localStorage.key(i)));
            let item = JSON.parse(localStorage.getItem(localStorage.key(i)));
@@ -265,7 +266,6 @@
              legend: 'none',
               lineWidth: 3,
               vAxis: { 
-               
                 format: '#.## °C',
               ticks: [20.00, 25.00, 30.00, 35.00, 40.00]
               },
@@ -275,8 +275,32 @@
                }
              }
            };
-           
+          
+          
+    //Zusatz      
+       peanut.viewColumns = [];
+       $.each(new Array(data.getNumberOfColumns()), function (colIndex) {
+      peanut.viewColumns.push(colIndex);
+    });
+  
+      peanut.viewColumns.push({
+      calc: function () {
+        return 35;
+      },
+      label: 'optical temperature limit',
+      type: 'number'
+    });
+
+    peanut.view = new google.visualization.DataView(data);
+    peanut.view.setColumns(viewColumns);
+
+    peanut.chart = new google.visualization.LineChart($('#chart').get(0));
+    peanut.chart.draw(peanut.view, peanut.chartOptions);
          } 
+        
+        //Ende des Zusatz
+        
+        
          if (peanut.data.getNumberOfRows()) {
            peanut.chart.draw(peanut.data, peanut.chartOptions);
          }
