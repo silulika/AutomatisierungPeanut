@@ -4,11 +4,15 @@ class Peanut {
    this.device = null;
    this.onDisconnected = this.onDisconnected.bind(this);
  }
+ 
+ //
  request() {
    let options = {
      'filters': [{ 'name': 'SensePeanut' }],
      'optionalServices': ['93cd3ce1-58d0-4757-8767-3a9e03511f43']
    };
+  
+  //Scan for a device with bluetooth Service
    return navigator.bluetooth.requestDevice(options)
    .then(device => {
      this.device = device;
@@ -141,7 +145,7 @@ class Peanut {
    });
  }
 
- /*Allgemein */
+ /*Common  */
 
  buzz() {
    return this._commandCharacteristic.writeValue(new Uint8Array([5]))
