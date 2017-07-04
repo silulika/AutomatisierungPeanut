@@ -58,58 +58,78 @@
      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
      <script src="sen.se Peanut.js"></script>
      <script>
+      //
        var $ = document.querySelector.bind(document);
        var peanuts = [];
        var activePeanut;
+      /*
+      * Creation of the constant MY_PEANUTS with individual
+      * Mac address,
+      * color,
+      * label,
+      * type description,
+      * factory cipher,
+      * of each peanut, for unambiguous assignment.
+      * Details on https://sen.se/developers/peanutkeys/
+      */
        const MY_PEANUTS = {
+        //Peanut1 = Praktikum 1
          '00:A0:50:42:0B:38': {
          'color': 'red',
          'label': 'Peanut1', 
          'type': 'thermo',
          'factoryKey': '0be379e5a55fd296e0ea9e677ebe210a', 
          },
+        //Peanut2 = Praktikum 2
          '00:A0:50:41:04:86': {
          'color': 'claret',
          'label': 'Peanut2', 
          'type': 'thermo',
          'factoryKey': '3d0b7b06a3e75e19875f022a67c75ec1', 
          },
+        //Peanut3 = Praktikum 3 
          '00:A0:50:43:09:66':{
          'color': 'navyblue',
          'label': 'Peanut3', 
          'type': 'thermo',
          'factoryKey': 'faa73fa2066a8dd7ebd64fb237585bc9', 
          },
+        //Peanut4 = Praktikum 4
          '00:A0:50:43:08:4C': {
          'color': 'blue',
          'label': 'Peanut4', 
          'type': 'thermo',
          'factoryKey': '70a3f492375bea8e0c54afaa01159a97', 
          },
+        //Peanut5 = Praktikum 5
          '00:A0:50:43:09:4E': {
          'color': 'emeraldgreen',
          'label': 'Peanut5', 
          'type': 'thermo',
          'factoryKey': 'd762c0780ca1c562147b3490d87fb37b', 
          },
+        //Peanut6 = Praktikum 6
          '00:A0:50:43:06:9A': {
          'color': 'green',
          'label': 'Peanut6', 
          'type': 'thermo',
          'factoryKey': 'bb2f8b8aaec49df019c2d97309d39a90', 
          },
+        //Peanut7 = Praktikum 7
          '00:A0:50:42:0A:DB': {
          'color': 'orange',
          'label': 'Peanut7', 
          'type': 'thermo',
          'factoryKey': 'c23beb7b76059e819dccdc91ce5a6f44', 
          },
+        //Peanut8 = Praktikum 8
          '00:A0:50:43:06:84': {
            'color': 'red',
            'label': 'Peanut8',
            'type': 'thermo',
            'factoryKey': '67194d8e44118c8fadca11b69fc38210',
          },
+        //Peanut9 = Praktikum 9
          '00:A0:50:42:0A:2E': {
            'color': 'green',
            'label': 'Peanut9', 
@@ -117,21 +137,34 @@
            'factoryKey': '19021a246780f37cae147c29b3c075d0',
          }
        };
+      //
        $('#scanPeanuts').addEventListener('click', function() {
+         //Output on the console
          log('Scanning for peanuts...');
+        //
          let peanut = new Peanut();
+        //Call the method 'connect'
          peanut.connect()
          .then(_ => { log('Connected to ' + peanut.device.name); })
+        //initialisation data (bootloaderId, usageId, firmwareId, bufferSize) from Peanut 
          .then(_ => peanut.getInitData())
+        //JSON.stringify converts JavaScript value into a JSON-String
+        //Output of the initialisation data and conversation
          .then(initData => { log('Init Data: ' + JSON.stringify(initData)); })
+        //Comparison of Mac address
          .then(_ => peanut.getMacAddress())
          .then(macAddress => {
+          //Error message, if the Mac addresses do not match
            if (!MY_PEANUTS[macAddress]) {
              return Promise.reject('Oh no, a mistake!');
            }
+          //Output of Mac Address from connected Peanut
            log('Mac Address: ' + macAddress);
+          //Comparison of Peanut Color
            peanut.color = MY_PEANUTS[macAddress].color;
+          //Output of Peanut Color
            log('Peanut color: ' + peanut.color);
+          //Assignment 
            peanut.factoryKey = MY_PEANUTS[macAddress].factoryKey;
            peanut.mac = macAddress;
            peanut.type = MY_PEANUTS[macAddress].type;
@@ -143,7 +176,9 @@
          .then(_ => peanut.updateConnectionParameters())
          .then(_ => peanut.startNotifications(handleNotifications))
          .then(_ => {
+          //Output if all data match
            log('Successfully authenticated!');
+          
            activePeanut = peanut;
            peanuts.push(activePeanut);
            if (!$('[data-mac="' + peanut.mac + '"]')) {
@@ -274,7 +309,7 @@
                 format: '#.## °C',
                 ticks: [15.00, 20.00, 25.00, 30.00, 35.00, 40.00],
                 baseline: 35.00,
-                baselineColor: '#dd041d'
+                baselineColor: '#120172'
               },
               hAxis: {
                 gridlines: { 
