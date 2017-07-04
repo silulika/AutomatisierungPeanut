@@ -233,6 +233,7 @@
          document.querySelector('#console').scrollTop += 100;
        }
        
+      //Google Charts
        google.charts.load('current', {packages: ['corechart']});
        function drawChart(peanut) {
          const div = document.createElement('div');
@@ -266,6 +267,8 @@
              legend: 'none',
               lineWidth: 3,
               vAxis: { 
+                baseline: 35.00,
+                color: '#00cc00',            
                 format: '#.## °C',
                 ticks: [15.00, 20.00, 25.00, 30.00, 35.00, 40.00]
               },
