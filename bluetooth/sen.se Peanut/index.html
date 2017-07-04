@@ -239,6 +239,7 @@
          const div = document.createElement('div');
          div.id = peanut.color + peanut.mac.split(':').join('');
          $('#charts').appendChild(div);
+        
          peanut.data = new google.visualization.DataTable();
          peanut.data.addColumn('datetime', 'Time');
          peanut.data.addColumn('number', '🥜 ' + peanut.label);
@@ -248,7 +249,9 @@
            if (item.peanutMac === peanut.mac) {
              if (item.temperatureCelsius) {
                let temperature = parseFloat(item.temperatureCelsius);
+              
                peanut.data.addRows([ [dateTime, temperature] ]);
+              
              } else if (item.alert) {
                let data = parseInt(item.alert);
                peanut.data.addRows([ [dateTime, data] ]);
@@ -257,7 +260,8 @@
          }
          if (peanut.type == 'thermo') {
            peanut.chart = new google.visualization.LineChart($('#' + div.id));
-           peanut.chartOptions = {
+           
+          peanut.chartOptions = {
              interpolateNulls: true,
              fontName: 'Roboto',
              curveType: 'function',
@@ -270,15 +274,15 @@
                 format: '#.## °C',
                 ticks: [15.00, 20.00, 25.00, 30.00, 35.00, 40.00],
                 baseline: 35.00,
-                //baseline.color: '#dd041d#fff'
+                baselineColor: '#dd041d'
               },
               hAxis: {
                 gridlines: { 
-                 color: '#dd041d'
+                 color: '#fff'
                }
              }
            };
-           
+           peanut.chart.vielColumns = []; 
          } //if-von thermoPeanut Klammer
          if (peanut.data.getNumberOfRows()) {
            peanut.chart.draw(peanut.data, peanut.chartOptions);
