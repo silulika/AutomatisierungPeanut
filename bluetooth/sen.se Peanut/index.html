@@ -1,14 +1,23 @@
+
  <!doctype html>
  <html>
    <head>
+    //Metadata for character encoding, 
      <meta charset="utf-8">
+    //Metadata for mobile devices:
+    //name:viewport, ensures a correct scaling of the website on the first call 
+    //content: for mobile devices
+    //initial-scale: The value sets the initial zoom level. 1.0 causes the contents to be displayed 1:1 
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Sense Peanut</title>
+    //MDL stylesheets
      <link rel="icon" sizes="192x192" href="../favicon.png">
      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
- <link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.blue-indigo.min.css" />
+     <link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.blue-indigo.min.css" />
      <script defer src="https://code.getmdl.io/1.2.0/material.min.js"></script>
      <style>
+      
+      //Setting the surface (Dashboard, Chart, Console, Buttons and separator with characteristics)
        #dashboard { padding: 12px }
        #dashboard > button { margin-bottom: 2px; }
        #chart { padding: 24px; padding-bottom: 0; }
@@ -23,6 +32,7 @@
          margin: 0;
          line-height: 16px;
        }
+       //Set the peanut colors with color coding
        [data-color="red"] { color: #dd041d; }
        [data-color="claret"] { color: #f2095e; }
        [data-color="navyblue"] { color: #2157ce; }
@@ -38,27 +48,43 @@
      </style>
    </head>
    <body>
+    // Assignment of the individual divisions with the attribute "Id" 
+    // and the respective naming, to be able to address it with CSS and to change design
      <div id="dashboard">
        <div id="buttons">
          <span style="padding: 0 16px;">🥜</span>
+        // Button is initialized with id, 
+        // icon blutton , using class mdl-button--icon to apply a plain circlar display effect
          <button class="mdl-button mdl-js-button mdl-button--icon" id="scanPeanuts"><i class="material-icons">search</i></button>
+        //"Battery", "Buzz" and "Get Temperature" buttons are displayed in one line and are limited to one divison
        </div>
+     // Button is initialized with id
+     // Primary-colored flat button, using class "mdl-button--primary" to apply the primary color
+     // disabled flat button, using attribute disabled
        <button class="mdl-button mdl-js-button mdl-button--primary" id="battery" disabled>Get Battery</button>
+      //Format the area and separate the buttons with "|"
        <span class="separator">|</span>
        <button class="mdl-button mdl-js-button mdl-button--primary" id="buzz" disabled>Buzz</button>
        <span class="separator">|</span>
        <button class="mdl-button mdl-js-button mdl-button--primary" id="temperature" disabled>Get Temperature</button>
        <span class="separator">|</span>
+     // end of the division
      </div>
- 
+    // Assignment of the individual divisions with the attribute "Id" 
+    // and the respective naming, to be able to address it with CSS and to change design
      <div id="console"></div>
      <div id="charts"></div>
- 
+    // jQuery-library
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    // Google Visualization API
      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    //Java-Script document, see also  
+    // https://github.com/silulika/AutomatisierungPeanut/blob/gh-pages/bluetooth/sen.se%20Peanut/sen.se%20Peanut.js
      <script src="sen.se Peanut.js"></script>
      <script>
-      //
+      
+      
+      //returns always the first element with the class "document"
        var $ = document.querySelector.bind(document);
        var peanuts = [];
        var activePeanut;
@@ -145,6 +171,7 @@
          let peanut = new Peanut();
         //Call the method 'connect'
          peanut.connect()
+        //then-method returns a promise-object and needs to arguments. A callback function for suscess and one for failure
          .then(_ => { log('Connected to ' + peanut.device.name); })
         //initialisation data (bootloaderId, usageId, firmwareId, bufferSize) from Peanut 
          .then(_ => peanut.getInitData())
@@ -155,21 +182,23 @@
          .then(_ => peanut.getMacAddress())
          .then(macAddress => {
           //Error message, if the Mac addresses do not match
+          //Promise-object was rejected
            if (!MY_PEANUTS[macAddress]) {
              return Promise.reject('Oh no, a mistake!');
            }
           //Output of Mac Address from connected Peanut
            log('Mac Address: ' + macAddress);
-          //Comparison of Peanut Color
+          //Comparison of Peanut Color 
            peanut.color = MY_PEANUTS[macAddress].color;
           //Output of Peanut Color
            log('Peanut color: ' + peanut.color);
-          //Assignment 
+          //unambiguous assignment
            peanut.factoryKey = MY_PEANUTS[macAddress].factoryKey;
            peanut.mac = macAddress;
            peanut.type = MY_PEANUTS[macAddress].type;
            peanut.label = MY_PEANUTS[macAddress].label;
          })
+        //parameterless arrow function, methods for checking
          .then(_ => peanut.getPlainText())
          .then(clearText => peanut.setFactoryCipher(peanut.factoryKey, clearText))
          .then(_ => peanut.setTime())
@@ -179,23 +208,41 @@
           //Output if all data match
            log('Successfully authenticated!');
           
+          
+          // succesfully connected peanut
            activePeanut = peanut;
+          // push-method adds elements to the end of an array and returns the new length of the array
            peanuts.push(activePeanut);
            if (!$('[data-mac="' + peanut.mac + '"]')) {
+            //Create a <button> element. Document is here a object
+            //When an HTML document is loaded into a web browser, it becomes a document object
              const newButton = document.createElement('button');
+            //classList property returns a token list of the class attribute of that element, this means
+            //adds class Button to newButton, 
              newButton.classList.add('mdl-button', 'mdl-js-button');
+            //provides access to Mac address and color of peanuts
              newButton.dataset.mac = peanut.mac;
              newButton.dataset.color = peanut.color;
+            //set the text content of peanut and makes the text content dynamically changeable
              newButton.textContent = peanut.label;
+            //A number of Event-Handler are added 
              newButton.addEventListener('click', onConnectButtonClick);
+            //newly created node is inserted
              $('#buttons').appendChild(newButton);
+            //Get the actual CSS property and values of the peanut color
              peanut.rgbColor = window.getComputedStyle(newButton).color;
+            //Draw the measured values of the connected peanuts into a chart
              drawChart(activePeanut);
+            //Adaptation the window to browser size. Important for mobile devices
              window.onresize();
            }
+          
+          
+          //Returns list of all data color elements of the document that have the CSS class button
            for (const button of document.querySelectorAll('button[data-color]')) {
              if (peanut.mac == button.dataset.mac) {
                button.disabled = false;
+              //The setTimeout () method calls the function updateButtonColor and evaluates the expression after 200 milliseconds
                setTimeout(function() {
                  $('#battery').disabled = false;
                  $('#temperature').disabled = false;
@@ -205,8 +252,11 @@
              }
            }
           })
+        //Exception: Displayed an error
          .catch(e => { log('Error: ' + e); });
        });
+      
+      
        function onConnectButtonClick(event) {
          let mac = event.target.dataset.mac;
          activePeanut = peanuts.find(peanut => peanut.mac == mac);
@@ -319,6 +369,8 @@
            };
            peanut.chart.vielColumns = []; 
          } //if-von thermoPeanut Klammer
+        
+        
          if (peanut.data.getNumberOfRows()) {
            peanut.chart.draw(peanut.data, peanut.chartOptions);
          }
@@ -329,6 +381,8 @@
          peanut.data.sort([{'column': 0}]);
          peanut.chart.draw(peanut.data, peanut.chartOptions);
        }
+      
+      
        window.onresize = function() {
          for (const peanut of peanuts) {
            peanut.chartOptions.width = document.body.clientWidth;
