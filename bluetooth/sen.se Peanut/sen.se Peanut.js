@@ -1,5 +1,6 @@
  
 class Peanut {
+ //Konstruktor
  constructor() {
    this.device = null;
    this.onDisconnected = this.onDisconnected.bind(this);
@@ -20,7 +21,7 @@ class Peanut {
      return device;
    });
  }
-  
+ //
  connect() {
    let requestDevice = Promise.resolve();
    if (!this.device) {
