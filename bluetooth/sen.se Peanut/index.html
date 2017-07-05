@@ -2,22 +2,22 @@
  <!doctype html>
  <html>
    <head>
-    //Metadata for character encoding, 
+    <!--Metadata for character encoding--> 
      <meta charset="utf-8">
-    //Metadata for mobile devices:
-    //name:viewport, ensures a correct scaling of the website on the first call 
-    //content: for mobile devices
-    //initial-scale: The value sets the initial zoom level. 1.0 causes the contents to be displayed 1:1 
+    <!--Metadata for mobile devices:-->
+    <!--name:viewport, ensures a correct scaling of the website on the first call -->
+    <!--content: for mobile devices-->
+    <!--initial-scale: The value sets the initial zoom level. 1.0 causes the contents to be displayed 1:1--> 
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Sense Peanut</title>
-    //MDL stylesheets
+    <!--MDL stylesheets-->
      <link rel="icon" sizes="192x192" href="../favicon.png">
      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
      <link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.blue-indigo.min.css" />
      <script defer src="https://code.getmdl.io/1.2.0/material.min.js"></script>
      <style>
       
-      //Setting the surface (Dashboard, Chart, Console, Buttons and separator with characteristics)
+      <!--Setting the surface (Dashboard, Chart, Console, Buttons and separator with characteristics)-->
        #dashboard { padding: 12px }
        #dashboard > button { margin-bottom: 2px; }
        #chart { padding: 24px; padding-bottom: 0; }
@@ -32,7 +32,7 @@
          margin: 0;
          line-height: 16px;
        }
-       //Set the peanut colors with color coding
+       //Set the peanut colors with color coding-->
        [data-color="red"] { color: #dd041d; }
        [data-color="claret"] { color: #f2095e; }
        [data-color="navyblue"] { color: #2157ce; }
@@ -48,38 +48,38 @@
      </style>
    </head>
    <body>
-    // Assignment of the individual divisions with the attribute "Id" 
-    // and the respective naming, to be able to address it with CSS and to change design
+   <!--Assignment of the individual divisions with the attribute "Id" -->
+    <!--and the respective naming, to be able to address it with CSS and to change design-->
      <div id="dashboard">
        <div id="buttons">
          <span style="padding: 0 16px;">🥜</span>
-        // Button is initialized with id, 
-        // icon blutton , using class mdl-button--icon to apply a plain circlar display effect
+        <!-- Button is initialized with id, -->
+        <!--icon blutton , using class mdl-button--icon to apply a plain circlar display effect-->
          <button class="mdl-button mdl-js-button mdl-button--icon" id="scanPeanuts"><i class="material-icons">search</i></button>
-        //"Battery", "Buzz" and "Get Temperature" buttons are displayed in one line and are limited to one divison
+        <!--"Battery", "Buzz" and "Get Temperature" buttons are displayed in one line and are limited to one divison-->
        </div>
-     // Button is initialized with id
-     // Primary-colored flat button, using class "mdl-button--primary" to apply the primary color
-     // disabled flat button, using attribute disabled
+     <!-- Button is initialized with id-->
+     <!-- Primary-colored flat button, using class "mdl-button--primary" to apply the primary color-->
+     <!-- disabled flat button, using attribute disabled-->
        <button class="mdl-button mdl-js-button mdl-button--primary" id="battery" disabled>Get Battery</button>
-      //Format the area and separate the buttons with "|"
+      <!--Format the area and separate the buttons with "|"-->
        <span class="separator">|</span>
        <button class="mdl-button mdl-js-button mdl-button--primary" id="buzz" disabled>Buzz</button>
        <span class="separator">|</span>
        <button class="mdl-button mdl-js-button mdl-button--primary" id="temperature" disabled>Get Temperature</button>
        <span class="separator">|</span>
-     // end of the division
+     <!--end of the division-->
      </div>
-    // Assignment of the individual divisions with the attribute "Id" 
-    // and the respective naming, to be able to address it with CSS and to change design
+    <!-- Assignment of the individual divisions with the attribute "Id"--> 
+    <!-- and the respective naming, to be able to address it with CSS and to change design-->
      <div id="console"></div>
      <div id="charts"></div>
-    // jQuery-library
+    <!--jQuery-library-->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    // Google Visualization API
+    <!-- Google Visualization API-->
      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    //Java-Script document, see also  
-    // https://github.com/silulika/AutomatisierungPeanut/blob/gh-pages/bluetooth/sen.se%20Peanut/sen.se%20Peanut.js
+    <!--Java-Script document, see also-->
+    <!-- https://github.com/silulika/AutomatisierungPeanut/blob/gh-pages/bluetooth/sen.se%20Peanut/sen.se%20Peanut.js-->
      <script src="sen.se Peanut.js"></script>
      <script>
       
